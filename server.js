@@ -15,8 +15,23 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
     return;
   }
 
-  const db = client.db("alcohol");
+  const db = client.db("alcohol"); //Creates and connects to db.
   console.log("I done connected to db");
+
+  app.post('/api/list', function(req, res) {
+    db.collection('list').insert(req.body, function(err, result) {
+      if(err) {
+        console.log(500);
+        res.status(500);
+        res.send()
+        return;
+      }
+
+      console.log('Item save to db');
+      res.status(201);
+      res.json(result.ops[0]);
+    });
+  });
 
 
   app.listen(3000, function(){
