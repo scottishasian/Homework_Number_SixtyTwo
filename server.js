@@ -27,9 +27,23 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
         return;
       }
 
-      console.log('Item save to db');
+      console.log('Item saved to db');
       res.status(201);
       res.json(result.ops[0]);
+    });
+  });
+
+  app.get('/api/list', function(req, res) {
+    db.collection('list').find().toArray(function(err, result) {
+      if(err) {
+        console.log(err);
+        res.status(500);
+        res.send();
+        return;
+      }
+
+      res.json(result);
+
     });
   });
 
